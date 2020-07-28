@@ -1,0 +1,46 @@
+<div class="container">
+    <div class="row pt-5">
+        <div class="col-lg-4"></div>
+        <div class="col-lg-4">
+            <div class="card card-body py-3 mb-3 shadow-sm">
+                <div class="text-center mb-3">
+                    <i class="fa fa-user-circle-o fa-3x text-dark"></i>
+                </div>
+                <h3 class="text-center mb-4">Sign up</h3>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form onSubmit={this.handleSignUp}>
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold small" for="userName">User name:</label>
+
+                                <input id="userName" type="text" autoFocus class="form-control" placeholder="Username"
+                                    name="userName" />
+
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold small" for="email">Email address:</label>
+
+                                <input type="email" id="email" class="form-control" placeholder="email" name="email" />
+
+                            </div>
+                            <div class="form-group mb-3">
+                                <label class="font-weight-bold small" for="password">Password:</label>
+
+                                <input id="password" type="password" class="form-control" placeholder="password"
+                                    name="password" autoComplete='' />
+
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-dark btn-block">Sign-up</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card card-footer shadow-sm">
+                <span class="text-center small">Have an account ?
+                    <a routerLink="/">Login</a></span>
+            </div>
+        </div>
+    </div>
+</div>
