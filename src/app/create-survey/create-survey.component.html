@@ -63,21 +63,28 @@
                         <button [disabled]="!questionForm.valid" class="btn btn-sm btn-dark">Add Question</button>
                     </form>
                 </div>
-                <div class="col-lg-7" *ngIf="questionsData?.length">
-                    <h4 class="text-center">{{surveyName}}</h4>
-                    <div *ngFor="let myQuestion of questionsData ; let i = index">
-                        <div class="card card-body shadow-sm question_card mb-2">
-                            <p class="mb-1"><strong>Question:</strong> {{myQuestion.question}}</p>
-                            <p class="mb-1"> <strong>QuizType:</strong> {{myQuestion.questionType}}</p>
-                            <!-- <p class="mb-1"><strong>Ends At:</strong> <span
+                <div class="col-lg-7">
+                    <section *ngIf="questionsData?.length">
+                        <h4 class="text-center">{{surveyName}}</h4>
+                        <div *ngFor="let myQuestion of questionsData ; let i = index">
+                            <div class="card card-body shadow-sm question_card mb-2">
+                                <p class="mb-1"><strong>Question:</strong> {{myQuestion.question}}</p>
+                                <p class="mb-1"> <strong>QuizType:</strong> {{myQuestion.questionType}}</p>
+                                <!-- <p class="mb-1"><strong>Ends At:</strong> <span
                                     class="badge badge-secondary">{{myQuestion.surveyEndDate}} </span> </p> -->
-                            <div *ngIf="myQuestion.options">
-                                <strong>Options:</strong>
-                                <span class="option_badge" *ngFor="let option of myQuestion.options"> {{option}} </span>
+                                <div *ngIf="myQuestion.options">
+                                    <strong>Options:</strong>
+                                    <span class="option_badge" *ngFor="let option of myQuestion.options"> {{option}}
+                                    </span>
+                                </div>
                             </div>
                         </div>
+                    </section>
+                    <div *ngIf="!questionsData?.length">
+                        <p class="text-center text-danger mt-5">No question created yet, Create one.</p>
                     </div>
                 </div>
+
             </div>
 
             <div class="text-right" *ngIf="questionsData.length > 0">

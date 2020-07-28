@@ -70,15 +70,17 @@ export class CreateSurveyComponent implements OnInit {
         questions: this.questionsData
       }
       this.surveySer.createSurvey(newSurvey);
+      console.log(JSON.stringify(newSurvey));
       this.router.navigate(['/surveys'])
     }
-
-
-
   }
+
+
 
   checkSurvey() {
     return !this.surveyName.trim().length || !this.surveyEndDate.trim().length || !this.surveyStartDate.trim().length
   }
 
 }
+
+
