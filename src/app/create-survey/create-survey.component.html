@@ -59,7 +59,6 @@
                             </div>
 
                         </div>
-                        <!--  [disabled]="!questionForm.valid" -->
                         <button [disabled]="!questionForm.valid" class="btn btn-sm btn-dark">Add Question</button>
                     </form>
                 </div>
@@ -70,8 +69,6 @@
                             <div class="card card-body shadow-sm question_card mb-2">
                                 <p class="mb-1"><strong>Question:</strong> {{myQuestion.question}}</p>
                                 <p class="mb-1"> <strong>QuizType:</strong> {{myQuestion.questionType}}</p>
-                                <!-- <p class="mb-1"><strong>Ends At:</strong> <span
-                                    class="badge badge-secondary">{{myQuestion.surveyEndDate}} </span> </p> -->
                                 <div *ngIf="myQuestion.options">
                                     <strong>Options:</strong>
                                     <span class="option_badge" *ngFor="let option of myQuestion.options"> {{option}}

@@ -18,21 +18,21 @@
             <tbody>
                 <tr *ngFor="let survey of surveyData; let i = index">
                     <td>{{i+1}}</td>
-                    <th>{{survey.surveyName}}</th>
-                    <th>{{survey.surveyStartDate | date}}</th>
-                    <th>{{survey.surveyEndDate | date}}</th>
-                    <th>{{survey.questions.length}}</th>
-                    <th>
+                    <td>{{survey.surveyName}}</td>
+                    <td>{{survey.surveyStartDate | date}}</td>
+                    <td>{{survey.surveyEndDate | date}}</td>
+                    <td>{{survey.questions.length}}</td>
+                    <td>
                         <span class="badge" [ngClass]="{
                             'badge-success':survey.status === 'Active',
                             'badge-primary':survey.status === 'Upcoming',
                             'badge-danger':survey.status === 'Expired'
                           }"> {{survey.status}}</span>
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <button class="btn btn-sm btn-primary mr-2">View</button>
                         <button class="btn btn-sm btn-danger">Delete</button>
-                    </th>
+                    </td>
                 </tr>
             </tbody>
         </table>
