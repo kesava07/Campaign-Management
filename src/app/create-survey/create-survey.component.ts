@@ -3,6 +3,7 @@ import { newArray } from '@angular/compiler/src/util';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SurveyService } from '../services/survey.service';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-create-survey',

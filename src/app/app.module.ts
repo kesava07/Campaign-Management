@@ -9,6 +9,8 @@ import { RegisterComponent } from './auth/register/register.component';
 import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import { SurveysListComponent } from './surveys-list/surveys-list.component';
 import { ParticipateSurveyComponent } from './participate-survey/participate-survey.component';
+import { AuthGuard } from './Guards/auth.guard';
+import { AuthService } from './services/auth.service';
 
 
 @NgModule({
@@ -25,7 +27,7 @@ import { ParticipateSurveyComponent } from './participate-survey/participate-sur
     AppRoutingModule,
     FormsModule
   ],
-  providers: [],
+  providers: [AuthService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
