@@ -25,25 +25,32 @@
     <div class="col-lg-8 m-auto" *ngIf="isStartedSurvey && survey.questions">
         <div class="card card-body shadow-sm">
             <h5> {{questionIndex+1}}) {{survey.questions[questionIndex].question}}</h5>
-            <div *ngIf="survey.questions[questionIndex].questionType === 'single'">
-                <div *ngFor="let myOption of survey.questions[questionIndex].options">
-                    <input id="{{myOption}}" type="radio" name="selectedOption" [value]="myOption" />
-                    <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+
+            <div class="mt-2">
+                <div *ngIf="survey.questions[questionIndex].questionType === 'single'">
+                    <div *ngFor="let myOption of survey.questions[questionIndex].options">
+                        <input [(ngModel)]="answer" id="{{myOption}}" type="radio" name="selectedOption"
+                            [value]="myOption" />
+                        <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="survey.questions[questionIndex].questionType === 'multiple'">
-                <div *ngFor="let myOption of survey.questions[questionIndex].options">
-                    <input id="{{myOption}}" type="checkbox" name="selectedOption" [value]="myOption" />
-                    <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+                <div *ngIf="survey.questions[questionIndex].questionType === 'multiple'">
+                    <div *ngFor="let myOption of survey.questions[questionIndex].options; let i = index">
+                        <input (change)="handleChange($event ,i)" id="{{myOption}}" type="checkbox" name="{{myOption}}" />
+                        <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+                    </div>
                 </div>
-            </div>
-            <div *ngIf="survey.questions[questionIndex].questionType === 'summery'">
-                <textarea class="form-control"></textarea>
+                <div *ngIf="survey.questions[questionIndex].questionType === 'summery'">
+                    <textarea [(ngModel)]="answer" placeholder="Please type your answer here"
+                        class="form-control"></textarea>
+                </div>
             </div>
             <hr />
             <div class="text-right">
-                <button *ngIf="!isShowFinalButton" class="btn btn-sm btn-primary" (click)="onHandleNext()">Next</button>
-                <button *ngIf="isShowFinalButton" class="btn btn-sm btn-success">Finish</button>
+                <button [disabled]="!answer" type="button" *ngIf="!isShowFinalButton" class="btn btn-sm btn-primary"
+                    (click)="onHandleNext()">Next</button>
+                <button type="button" (click)="finishSurvey()" *ngIf="isShowFinalButton"
+                    class="btn btn-sm btn-success">Finish</button>
             </div>
         </div>
     </div>

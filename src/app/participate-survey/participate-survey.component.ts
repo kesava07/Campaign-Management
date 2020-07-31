@@ -19,6 +19,8 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
   questionIndex = 0;
   isShowFinalButton = false;
   surveyResultData = [];
+  answer;
+  form ;
   ngOnInit() {
     this.subscription = this.route.params.subscribe((params) => {
       if (params.id) {
@@ -35,6 +37,12 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
 
   onHandleNext() {
     if (this.survey) {
+      const newData = {
+        question: this.survey.questions[this.questionIndex].question,
+        answer: this.answer
+      }
+      this.answer = "";
+      this.surveyResultData.push(newData);
       if (this.questionIndex < this.survey.questions.length - 2) {
         this.questionIndex++;
       } else {
@@ -43,6 +51,20 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
       }
     }
   }
+  finishSurvey() {
+    console.log(this.form);
+    const newData = {
+      question: this.survey.questions[this.questionIndex].question,
+      answer: this.answer
+    }
+    this.answer = "";
+    this.surveyResultData.push(newData);
+    console.log(this.surveyResultData);
+  }
+
+  handleSubmit(form) {
+    console.log(form);
+  }
 
   startSurvey() {
     this.isStartedSurvey = true;
@@ -50,6 +72,10 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  handleChange(e , i){
+    console.log(e ,i);
   }
 
 }
