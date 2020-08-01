@@ -1,7 +1,8 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { SurveyService } from '../services/survey.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-participate-survey',
@@ -10,7 +11,9 @@ import { Subscription } from 'rxjs';
 })
 export class ParticipateSurveyComponent implements OnInit, OnDestroy {
 
-  constructor(private surveySer: SurveyService, private route: ActivatedRoute) { }
+  @ViewChild("frm") frm: NgForm;
+
+  constructor(private router: Router, private surveySer: SurveyService, private route: ActivatedRoute) { }
 
   survey;
   status;
@@ -20,7 +23,8 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
   isShowFinalButton = false;
   surveyResultData = [];
   answer;
-  form ;
+  form;
+  isSurveyCompleted = false;
   ngOnInit() {
     this.subscription = this.route.params.subscribe((params) => {
       if (params.id) {
@@ -28,43 +32,75 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
       }
     })
     if (this.survey) {
-      console.log(this.survey);
       this.status = this.surveySer.getStatus(this.survey.surveyStartDate, this.survey.surveyEndDate);
       this.isShowFinalButton = this.survey.questions.length === 1 ? true : false
     }
-    console.log(this.survey.questions.length);
   }
 
-  onHandleNext() {
+  handleQuestionSubmit(form) {
     if (this.survey) {
-      const newData = {
-        question: this.survey.questions[this.questionIndex].question,
-        answer: this.answer
-      }
-      this.answer = "";
-      this.surveyResultData.push(newData);
-      if (this.questionIndex < this.survey.questions.length - 2) {
-        this.questionIndex++;
+
+      let newData = {}
+      if (this.survey.questions[this.questionIndex].questionType === 'multiple') {
+        const obj = form.value
+        const selectedOptions = Object.keys(obj).filter(k => {
+          return obj[k] === true;
+        });
+        newData = {
+          question: this.survey.questions[this.questionIndex].question,
+          answer: selectedOptions
+        }
+
       } else {
-        this.questionIndex++;
+        newData = {
+          question: this.survey.questions[this.questionIndex].question,
+          answer: form.value.answer
+        }
+      }
+      this.surveyResultData.push(newData);
+      this.frm.reset();
+
+      if (this.questionIndex === this.survey.questions.length - 1) {
+        console.log(this.surveyResultData);
+        this.isSurveyCompleted = true;
+        setTimeout(() => {
+          this.router.navigate(["survey-success"]);
+        }, 200)
+        return;
+      }
+
+      if (this.questionIndex < this.survey.questions.length - 2) {
+        this.questionIndex = this.questionIndex + 1;
+      } else {
+        this.questionIndex = this.questionIndex + 1;
         this.isShowFinalButton = true;
       }
+
+
+
     }
-  }
-  finishSurvey() {
-    console.log(this.form);
-    const newData = {
-      question: this.survey.questions[this.questionIndex].question,
-      answer: this.answer
-    }
-    this.answer = "";
-    this.surveyResultData.push(newData);
-    console.log(this.surveyResultData);
   }
 
-  handleSubmit(form) {
-    console.log(form);
-  }
+  // handleQuestionSubmit(form) {
+  //   console.log(form.value);
+  //   if (this.survey && this.survey.questions) {
+  //     const newData = {
+  //       question: this.survey.questions[this.questionIndex].question,
+  //       answer: form.value.answer
+  //     }
+  //     this.surveyResultData.push(newData);
+  //     this.frm.reset();
+  //     if (this.questionIndex < this.survey.questions.length - 2) {
+  //       this.questionIndex++;
+  //     } else {
+  //       this.questionIndex++;
+  //       this.isShowFinalButton = true;
+  //     }
+  //     if (this.questionIndex === this.survey.questions.length) {
+  //       console.log(this.surveyResultData);
+  //     }
+  //   }
+  // }
 
   startSurvey() {
     this.isStartedSurvey = true;
@@ -73,9 +109,4 @@ export class ParticipateSurveyComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
   }
-
-  handleChange(e , i){
-    console.log(e ,i);
-  }
-
 }

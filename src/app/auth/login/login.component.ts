@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -9,9 +10,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private authServ: AuthService) { }
+  constructor(private authServ: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+    if (this.authServ.getUser()) {
+      this.router.navigate(["/surveys"]);
+    }
   }
 
   handleLogin(form: NgForm) {

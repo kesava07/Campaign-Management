@@ -11,6 +11,7 @@ import { SurveysListComponent } from './surveys-list/surveys-list.component';
 import { ParticipateSurveyComponent } from './participate-survey/participate-survey.component';
 import { AuthGuard } from './Guards/auth.guard';
 import { AuthService } from './services/auth.service';
+import { SuccessComponent } from './success/success.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AuthService } from './services/auth.service';
     RegisterComponent,
     CreateSurveyComponent,
     SurveysListComponent,
-    ParticipateSurveyComponent
+    ParticipateSurveyComponent,
+    SuccessComponent
   ],
   imports: [
     BrowserModule,

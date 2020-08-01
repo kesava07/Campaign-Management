@@ -26,6 +26,6 @@ export class AuthService {
         this.removeUser();
         setTimeout(() => {
             this.router.navigate(["/login"]);
-        }, 500);
+        }, 200);
     }
 }

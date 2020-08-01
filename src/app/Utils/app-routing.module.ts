@@ -7,6 +7,7 @@ import { RegisterComponent } from '../auth/register/register.component';
 import { SurveysListComponent } from '../surveys-list/surveys-list.component';
 import { ParticipateSurveyComponent } from '../participate-survey/participate-survey.component';
 import { AuthGuard } from '../Guards/auth.guard';
+import { SuccessComponent } from '../success/success.component';
 
 const routes = [
     { path: "", redirectTo: "/login", pathMatch: "full" },
@@ -15,6 +16,7 @@ const routes = [
     { path: "surveys", component: SurveysListComponent, canActivate: [AuthGuard] },
     { path: "create-survey", component: CreateSurveyComponent, canActivate: [AuthGuard] },
     { path: "participate/:id", component: ParticipateSurveyComponent, canActivate: [AuthGuard] },
+    { path: "survey-success", component: SuccessComponent, canActivate: [AuthGuard] },
     { path: "**", redirectTo: "/login" }
 ]
 

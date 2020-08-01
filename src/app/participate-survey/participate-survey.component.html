@@ -22,36 +22,38 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-8 m-auto" *ngIf="isStartedSurvey && survey.questions">
+    <div class="col-lg-8 m-auto" *ngIf="isStartedSurvey">
         <div class="card card-body shadow-sm">
-            <h5> {{questionIndex+1}}) {{survey.questions[questionIndex].question}}</h5>
+            <h5> {{questionIndex+1}}) <span *ngIf="survey.questions">{{survey.questions[questionIndex].question}}</span>
+            </h5>
 
-            <div class="mt-2">
-                <div *ngIf="survey.questions[questionIndex].questionType === 'single'">
-                    <div *ngFor="let myOption of survey.questions[questionIndex].options">
-                        <input [(ngModel)]="answer" id="{{myOption}}" type="radio" name="selectedOption"
-                            [value]="myOption" />
-                        <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+            <form #frm="ngForm" (ngSubmit)="handleQuestionSubmit(frm)">
+                <div class="mt-2">
+                    <div *ngIf="survey.questions[questionIndex].questionType === 'single'">
+                        <div *ngFor="let myOption of survey.questions[questionIndex].options">
+                            <input required ngModel id="{{myOption}}" type="radio" name="answer" [value]="myOption" />
+                            <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="survey.questions[questionIndex].questionType === 'multiple'">
+                        <div *ngFor="let myOption of survey.questions[questionIndex].options; let i = index">
+                            <input ngModel id="{{myOption}}" type="checkbox" name="{{myOption}}" />
+                            <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
+                        </div>
+                    </div>
+                    <div *ngIf="survey.questions[questionIndex].questionType === 'summery'">
+                        <textarea required name="answer" ngModel placeholder="Please type your answer here"
+                            class="form-control"></textarea>
                     </div>
                 </div>
-                <div *ngIf="survey.questions[questionIndex].questionType === 'multiple'">
-                    <div *ngFor="let myOption of survey.questions[questionIndex].options; let i = index">
-                        <input (change)="handleChange($event ,i)" id="{{myOption}}" type="checkbox" name="{{myOption}}" />
-                        <label for="{{myOption}}"> &nbsp;{{myOption}}</label>
-                    </div>
+                <hr />
+                <div class="text-right">
+                    <button [disabled]="!frm.valid" type="submit" class="btn btn-sm btn-primary"
+                        [ngClass]="{'btn-success':isShowFinalButton}">
+                        {{isShowFinalButton ? "Finish":"Next"}}
+                    </button>
                 </div>
-                <div *ngIf="survey.questions[questionIndex].questionType === 'summery'">
-                    <textarea [(ngModel)]="answer" placeholder="Please type your answer here"
-                        class="form-control"></textarea>
-                </div>
-            </div>
-            <hr />
-            <div class="text-right">
-                <button [disabled]="!answer" type="button" *ngIf="!isShowFinalButton" class="btn btn-sm btn-primary"
-                    (click)="onHandleNext()">Next</button>
-                <button type="button" (click)="finishSurvey()" *ngIf="isShowFinalButton"
-                    class="btn btn-sm btn-success">Finish</button>
-            </div>
+            </form>
         </div>
     </div>
 </section>
